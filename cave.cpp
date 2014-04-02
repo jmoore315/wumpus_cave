@@ -82,7 +82,7 @@ void Game::InitializeBoard(){
 		{
 			for (int j = 0; j < size; ++j)
 			{
-				if(board[i][j] = UNEXPLORED_ROOM){
+				if(board[i][j] == UNEXPLORED_ROOM){
 					double r = ((double) rand() / (RAND_MAX));
 					if(r <= 0.15){
 						board[i][j] = WEAPON*UNEXPLORED_ROOM;
@@ -104,7 +104,7 @@ void Game::InitializeBoard(){
 		{
 			for (int j = 0; j < size; ++j)
 			{
-				if(board[i][j] = UNEXPLORED_ROOM){
+				if(board[i][j] == UNEXPLORED_ROOM){
 					double r = ((double) rand() / (RAND_MAX));
 					if(r <= 0.15){
 						board[i][j] = WUMPUS*UNEXPLORED_ROOM;
@@ -127,7 +127,7 @@ void Game::InitializeBoard(){
 		{
 			for (int j = 0; j < size; ++j)
 			{
-				if(board[i][j] = UNEXPLORED_ROOM){
+				if(board[i][j] == UNEXPLORED_ROOM){
 					double r = ((double) rand() / (RAND_MAX));
 					if(r <= 0.15){
 						board[i][j] = GOLD*UNEXPLORED_ROOM;
@@ -150,7 +150,7 @@ void Game::InitializeBoard(){
 		{
 			for (int j = 0; j < size; ++j)
 			{
-				if(board[i][j] = UNEXPLORED_ROOM){
+				if(board[i][j] == UNEXPLORED_ROOM){
 					double r = ((double) rand() / (RAND_MAX));
 					if(r <= 0.05){
 						board[i][j] = TRAP*UNEXPLORED_ROOM;
@@ -172,7 +172,7 @@ void Game::InitializeBoard(){
 		{
 			for (int j = 0; j < size; ++j)
 			{
-				if(board[i][j] = UNEXPLORED_ROOM){
+				if(board[i][j] == UNEXPLORED_ROOM){
 					double r = ((double) rand() / (RAND_MAX));
 					if(r <= (1.0/(size*size))){
 						board[i][j] = ENTRANCE;
@@ -186,6 +186,7 @@ void Game::InitializeBoard(){
 			}
 		}
 	}
+
 
 }
 
@@ -203,6 +204,23 @@ void Game::PrintBoard(){
 			else
 			{
 				int val = board[i-1][j-1];
+
+				// if(val % WUMPUS == 0)
+				// 	cout << "!";
+				// else if(val % ENTRANCE == 0)
+				// 	cout << "^";
+				// else if(val % WEAPON == 0) 
+				// 	cout << "W";
+				// else if(val % GOLD == 0)
+				// 	cout << "G";
+				// else if(val % TRAP ==0)
+				// 	cout << "T";
+				// else if(val % UNEXPLORED_ROOM ==0)
+				// 	cout << "?";
+				// else 
+				// 	cout << ".";
+				//cout << endl;
+
 				if(val%UNEXPLORED_ROOM == 0){
 					cout << "?";
 				}
@@ -293,12 +311,14 @@ void Game::Display(){
 void Game::OutputInfo(){
 	int val = board[player.p.y][player.p.x];
 	if(val % UNEXPLORED_ROOM == 0){
+		player.score+=1;
 		if(val == UNEXPLORED_ROOM){
-			player.score+=1;
 			board[player.p.y][player.p.x] = EXPLORED_ROOM;
+			val = EXPLORED_ROOM;
 		}
 		else {
 			board[player.p.y][player.p.x] /= UNEXPLORED_ROOM;
+			val /= UNEXPLORED_ROOM;
 		}
 	}
 
@@ -449,6 +469,7 @@ int main(int argc, char const *argv[])
 		}
 		cout << "here\n";
 		game.Display();
+		//game.PrintBoard();
 	}
 	cout << "Game Over. Your score: " << game.player.score << endl;
 	return 0;
