@@ -14,6 +14,7 @@ struct position {
 class Player {
 	public:
 	bool is_armed;
+	int weapon_life;
 	int score;
 	position p;
 	Player();
@@ -21,6 +22,7 @@ class Player {
 
 Player::Player(){
 	is_armed = false;
+	weapon_life = 0;
 	score = 0;
 	p.x = 0;
 	p.y = 0;
@@ -331,6 +333,10 @@ void Game::OutputInfo(){
 			if(player.is_armed){
 				cout << "You raise your sword and slay the Wumpus!\n";
 				player.score +=10;
+				player.weapon_life--;
+				if(player.weapon_life == 0){
+					player.is_armed = false;
+				}
 			}
 			else{
 				cout << "The Wumpus eats you...\n";
@@ -354,7 +360,7 @@ void Game::OutputInfo(){
 	if(is_live){
 		cout << player.score << " points earned. ";
 		if(player.is_armed)
-			cout << "You are armed and dangerous.\n";
+			cout << "You are armed and dangerous. Weapon has " << player.weapon_life << " hit(s) remaining.\n";
 		else
 			cout << "You are weaponless.\n";
 	}
@@ -458,6 +464,7 @@ int main(int argc, char const *argv[])
 		{
 			if(game.board[game.player.p.y][game.player.p.x] % WEAPON == 0){
 				game.player.is_armed = true;
+				game.player.weapon_life += 2;
 				cout << "You retrieve the sword.\n";
 				game.player.score += 5;
 			}
