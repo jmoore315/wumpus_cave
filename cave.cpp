@@ -296,6 +296,7 @@ void Game::Display(){
 							cout << "@";
 						break;
 						default:
+						  cout << "E";
 						break;
 					}
 				}
@@ -332,6 +333,7 @@ void Game::OutputInfo(){
 			cout << "Overwhelmed in the stench of a Wumpus, which stands before you ready to eat you...\n";
 			if(player.is_armed){
 				cout << "You raise your sword and slay the Wumpus!\n";
+				board[player.p.y][player.p.x] = EXPLORED_ROOM;
 				player.score +=10;
 				player.weapon_life--;
 				if(player.weapon_life == 0){
